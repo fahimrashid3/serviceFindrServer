@@ -44,6 +44,26 @@ async function run() {
       res.send(result);
     });
 
+    //reviews related apis
+
+    app.get("/reviews", async (req, res) => {
+      const result = await reviewsCollection.find().toArray();
+      res.send(result);
+    });
+
+    // user related apis
+    app.get("/users", async (req, res) => {
+      const result = await usersCollection.find().toArray();
+      res.send(result);
+    });
+
+    app.get("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await usersCollection.findOne(query);
+      res.send(result);
+    });
+
     // categories related apis
 
     app.get("/categories", async (req, res) => {
@@ -51,18 +71,17 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/users", async (req, res) => {
-      const result = await usersCollection.find().toArray();
+    app.get("/category", async (req, res) => {
+      const category = req.query.category;
+      const query = { serviceProviderType: category };
+      const result = await categoriesCollection.findOne(query);
       res.send(result);
     });
-    app.get("/reviews", async (req, res) => {
-      const result = await reviewsCollection.find().toArray();
-      res.send(result);
-    });
-    app.get("/user/:id", async (req, res) => {
-      const id = req.params.id;
+
+    app.get("/category", async (req, res) => {
+      const id = req.query.id;
       const query = { _id: new ObjectId(id) };
-      const result = await usersCollection.findOne(query);
+      const result = await categoriesCollection.findOne(query);
       res.send(result);
     });
 
